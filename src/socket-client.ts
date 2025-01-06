@@ -19,4 +19,15 @@ const addListener = (socket: Socket) => {
   socket.on("disconnect", () => {
     serverStatusLabel!.innerHTML = "offline";
   });
+
+  socket.on("clients-updated", (clients: string[]) => {
+    const clientsUl = document.querySelector("#clients-ul");
+
+    clientsUl!.innerHTML = "";
+    clients.forEach((client) => {
+      const li = document.createElement("li");
+      li.innerHTML = client;
+      clientsUl!.appendChild(li);
+    });
+  });
 };
