@@ -10,6 +10,8 @@ export const connectToSocket = () => {
 const addListener = (socket: Socket) => {
   const serverStatusLabel = document.querySelector("#server-status");
 
+  //TODO: #clients-ul
+
   socket.on("connect", () => {
     serverStatusLabel!.innerHTML = "online";
   });
