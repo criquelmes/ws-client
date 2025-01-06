@@ -10,6 +10,11 @@ export const connectToSocket = () => {
 const addListener = (socket: Socket) => {
   const serverStatusLabel = document.querySelector("#server-status");
 
+  const messageForm = document.querySelector<HTMLFormElement>("#message-form")!;
+  const messageInput = document.querySelector<HTMLInputElement>(
+    "#message-input"
+  )! as HTMLInputElement;
+
   //TODO: #clients-ul
 
   socket.on("connect", () => {
@@ -29,5 +34,16 @@ const addListener = (socket: Socket) => {
       li.innerHTML = client;
       clientsUl!.appendChild(li);
     });
+  });
+
+  messageForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (messageInput.value.trim().length <= 0) return;
+    console.log({ id: "yo", message: messageInput.value });
+    socket.emit("message-from-client", {
+      id: "yo",
+      message: messageInput.value,
+    });
+    messageInput.value = "";
   });
 };
