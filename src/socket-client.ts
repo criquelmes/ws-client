@@ -14,8 +14,7 @@ const addListener = (socket: Socket) => {
   const messageInput = document.querySelector<HTMLInputElement>(
     "#message-input"
   )! as HTMLInputElement;
-
-  //TODO: #clients-ul
+  const messagesUl = document.querySelector<HTMLUListElement>("#messages-ul");
 
   socket.on("connect", () => {
     serverStatusLabel!.innerHTML = "online";
@@ -39,11 +38,20 @@ const addListener = (socket: Socket) => {
   messageForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (messageInput.value.trim().length <= 0) return;
-    console.log({ id: "yo", message: messageInput.value });
+
     socket.emit("message-from-client", {
       id: "yo",
       message: messageInput.value,
     });
     messageInput.value = "";
   });
+
+  socket.on(
+    "message-from-server",
+    (payload: { fullName: string; message: string }) => {
+      const li = document.createElement("li");
+      li.innerHTML = payload.fullName + ": " + payload.message;
+      messagesUl!.appendChild(li);
+    }
+  );
 };
