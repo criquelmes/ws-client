@@ -2,12 +2,16 @@ import { Manager, Socket } from "socket.io-client";
 
 let socket: Socket;
 export const connectToSocket = (token: string) => {
-  const manager = new Manager("http://localhost:3000/socket.io/socket.io.js", {
-    extraHeaders: {
-      hola: "mundo",
-      authentication: token,
-    },
-  });
+  const manager = new Manager(
+    "https://nesttesloshopapi.onrender.com/socket.io/socket.io.js",
+    {
+      // http://localhost:3000/socket.io/socket.io.js para ambiente local
+      extraHeaders: {
+        hola: "mundo",
+        authentication: token,
+      },
+    }
+  );
 
   socket?.removeAllListeners();
   socket = manager.socket("/");
